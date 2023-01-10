@@ -24,4 +24,15 @@ public class CarDAO  {
         return carList;
     }
 
+    public List<Car> getCars(int count){
+        if(count>5)
+            count = 5;
+        List<Car> cars = new ArrayList<>();
+        if(count>0)
+            for(int i = 0;i<=count-1;i++){
+                cars.add((Car) showCars().get(i));
+            }
+        return cars;
+    }
+
 }

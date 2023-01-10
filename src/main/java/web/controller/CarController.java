@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import web.dao.CarDAO;
 import web.model.Car;
+import web.service.CarService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +20,15 @@ import java.util.List;
 public class CarController {
 
 
-    private final CarDAO carDAO;
+    private final CarService carService;
 
-    public CarController(CarDAO carDAO){
-        this.carDAO = carDAO;
+    public CarController(CarService carService){
+        this.carService = carService;
     }
 
     @GetMapping(value = "/cars")
-    public String getCars(@RequestParam(value = "count",defaultValue = "5") int count,
-            ModelMap model){
-        if(count>5)
-            count = 5;
-        List<Car> cars = new ArrayList<>();
-        if(count>0)
-        for(int i = 0;i<=count-1;i++){
-            cars.add((Car) carDAO.showCars().get(i));
-            model.addAttribute("allCars",cars);
-        }
+    public String getCars(@RequestParam(value = "count",defaultValue = "5") int count, ModelMap model){
+        model.addAttribute("allCars",carService.getCars(count));
         return "cars";
     }
 }
